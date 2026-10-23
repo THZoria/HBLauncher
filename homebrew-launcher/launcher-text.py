@@ -1,11 +1,14 @@
 """Build the launcher's antialiased type atlas (no runtime font dependency)."""
 from pathlib import Path
+import sys
 from PIL import Image, ImageDraw, ImageFont
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'scripts'))
+from font import font_path
 
 root = Path(__file__).resolve().parent / 'shaders'
 atlas = Image.new('L', (1024, 2048))
 draw = ImageDraw.Draw(atlas)
-font = '/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf'
+font = font_path()
 labels = [
     ('TITLE', 'HBLauncher', 88),
     ('SUBTITLE', 'V 1.0.0', 24),

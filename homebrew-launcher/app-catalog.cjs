@@ -46,7 +46,7 @@ async function readApp(directory,{validate=true}={}){
  const icon=files.icon.bytes;
  check(icon.length>=33&&icon.subarray(0,8).equals(Buffer.from('89504e470d0a1a0a','hex'))&&icon.toString('ascii',12,16)==='IHDR','Icon must be a PNG');
  check(icon.readUInt32BE(16)>0&&icon.readUInt32BE(16)<=4096&&icon.readUInt32BE(20)>0&&icon.readUInt32BE(20)<=4096,'Icon dimensions exceed 4096');
- await run('python3',['-c','from PIL import Image; import sys; im=Image.open(sys.argv[1]); im.verify()',files.icon.file],{timeout:10000,maxBuffer:65536});
+ await run(require('../scripts/toolchain.cjs').python(),['-c','from PIL import Image; import sys; im=Image.open(sys.argv[1]); im.verify()',files.icon.file],{timeout:10000,maxBuffer:65536});
  const effects={},effectData={};
  check(m.audio===undefined||(m.audio.sampleRate===48000&&m.audio.channels===2&&m.audio.format==='s16le'),'Unsupported audio format');
  for(const [id,name] of Object.entries(m.audio?.effects||{})){
@@ -74,7 +74,7 @@ async function raster(catalog,directory,label='catalog'){
   labels.push({name:a.name,description:a.description,icon,transition:a.manifest.transition});
  }
  await fs.writeFile(input,JSON.stringify(labels,null,2));
- await run('python3',[path.join(__dirname,'catalog-assets.py'),input,output],{timeout:15000,maxBuffer:65536});
+ await run(require('../scripts/toolchain.cjs').python(),[path.join(__dirname,'catalog-assets.py'),input,output],{timeout:15000,maxBuffer:65536});
  const bytes=await fs.readFile(output);check(bytes.length===MAX_APPS*SLOT_BYTES,'Invalid catalog raster');return bytes;
 }
 module.exports={ROOT,MAX_APPS,SLOT_BYTES,ATLAS_BYTES,asset,readApp,scan,summary,raster};

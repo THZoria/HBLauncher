@@ -27,22 +27,23 @@ function start({host, command, key, port = PORT, onStatus = () => {}}) {
           const supplied = /^NS2KEY1 ([0-9a-f]{32})$/.exec(line);
           if (claimed || !supplied ||
               !crypto.timingSafeEqual(Buffer.from(supplied[1], 'hex'), expected)) {
-            onStatus('Pico authentication rejected');
+            onStatus('Keyboard bridge authentication rejected');
             return reject();
           }
           claimed = authorized = true;
           socket.write(command + '\n');
-          onStatus(command === HELLO ? 'Pico connected; Hello world command sent' : 'Pico connected; fresh V=START command sent');
+          onStatus(command === HELLO ? 'Keyboard bridge connected; Hello world command sent' : 'Keyboard bridge connected; fresh V=START command sent');
         } else if (line === 'READY') {
-          onStatus('Pico validated the keyboard command');
+          onStatus('Keyboard bridge validated the command');
         } else if (line === 'TYPING') {
-          onStatus('Pico is typing in SmileBASIC');
+          socket.setTimeout(20 * 60 * 1000);
+          onStatus('Keyboard bridge is entering commands in SmileBASIC');
         } else if (line === 'DONE') {
           done = true;
-          onStatus('Pico finished typing');
+          onStatus('Keyboard bridge finished entering commands');
           socket.end();
         } else if (line.startsWith('ERROR ')) {
-          onStatus('Pico error: ' + line.slice(6, 100));
+          onStatus('Keyboard bridge error: ' + line.slice(6, 100));
           return reject();
         } else return reject();
       }
@@ -51,7 +52,7 @@ function start({host, command, key, port = PORT, onStatus = () => {}}) {
     socket.on('error', () => {});
     socket.on('close', () => {
       sockets.delete(socket);
-      if (authorized && !done) onStatus('Pico disconnected before confirming completion; inspect the Switch screen');
+      if (authorized && !done) onStatus('Keyboard bridge disconnected before confirming completion; inspect the Switch screen');
     });
   });
   return new Promise((resolve, reject) => {

@@ -11,7 +11,7 @@ async function main(){
  }
  const state=Buffer.alloc(1024);await fs.writeFile(path.join(dir,'state'),state);
  execFileSync(path.join(root,'homebrew-launcher/game-render'),[path.join(dir,'state'),path.join(__dirname,'assets/text.bin'),__dirname,path.join(dir,'preview.rgba')],{env:{...process.env,HB_SHADER_PREFIX:'app'},stdio:'pipe'});
- execFileSync('python3',['-c','from PIL import Image; import sys; Image.frombytes("RGBA",(1920,1080),open(sys.argv[1],"rb").read()).save(sys.argv[2])',path.join(dir,'preview.rgba'),path.join(dir,'preview.png')]);
+ execFileSync(require('../../scripts/toolchain.cjs').python(),['-c','from PIL import Image; import sys; Image.frombytes("RGBA",(1920,1080),open(sys.argv[1],"rb").read()).save(sys.argv[2])',path.join(dir,'preview.rgba'),path.join(dir,'preview.png')]);
  console.log('Passed: greeting render, idle, B/Minus exit, held button and disconnected input.');console.log('Preview: '+path.join(dir,'preview.png'));
 }
 main().catch(e=>{console.error(e);process.exitCode=1;});

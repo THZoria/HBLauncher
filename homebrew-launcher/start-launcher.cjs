@@ -28,7 +28,7 @@ function stop(){
    await new Promise(resolve=>{const timer=setTimeout(resolve,5000);child.once('close',()=>{clearTimeout(timer);resolve();});child.kill('SIGTERM');});
   }
   // Keep RPC alive until the audio owner has stopped its console output.
-  await Promise.all([...children].filter(c=>/\/game-audio\.cjs$/.test(c.script)).map(end));
+   await Promise.all([...children].filter(c=>c.script==='homebrew-launcher/game-audio.cjs').map(end));
   await Promise.all([...children].filter(c=>c.script!=='smilebasic/host.cjs').map(end));
   await Promise.all([...children].map(end));
  })();return stopping;

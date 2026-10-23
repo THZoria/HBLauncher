@@ -6,6 +6,10 @@ Maintained by **RavensClawX**.
 Pico setup, SmileBASIC entry and first launch. Prebuilt GPU assets are included;
 you do not need to compile the launcher to run it.
 
+**Raspberry Pi 3/4/5 + Windows PC, without a Pico:** see the
+[Raspberry Pi keyboard bridge guide](smilebasic/pi-keyboard/README.md). It pairs
+with the existing host protocol, so packaged homebrew apps remain compatible.
+
 A homebrew app launcher running through **SmileBASIC on Nintendo Switch 2**.
 Browse apps on the console, launch independent GPU programs, and return to the
 menu. The included **Hello World** app is a complete starting point for your own

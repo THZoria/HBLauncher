@@ -9,6 +9,11 @@ SmileBASIC or console firmware. You need an installed, working copy of the
 supported SmileBASIC version. Other boards, operating systems and versions are
 not certified by this release.
 
+For a **Windows host with a Raspberry Pi 3, 4 or 5 instead of the Pico**, see
+the [Raspberry Pi keyboard bridge guide](../smilebasic/pi-keyboard/README.md).
+The Pi 3 B/B+ requires manual entry because its USB ports cannot operate as
+a device; selecting the model does not change that hardware limitation.
+
 You do not need to compile the launcher to try the release. Its GPU shaders and
 Hello World assets are included. The computer must stay running while you use it.
 

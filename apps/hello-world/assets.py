@@ -1,7 +1,10 @@
 from pathlib import Path
+import sys
 from PIL import Image, ImageDraw, ImageFont
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / 'scripts'))
+from font import font_path
 root=Path(__file__).resolve().parent
-font='/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf'
+font=font_path()
 atlas=Image.new('L',(1024,2048));draw=ImageDraw.Draw(atlas);header=[];y=2
 for name,label,size in [('HELLO','Hello, world!',96),('MESSAGE','Your first homebrew app is running.',32),('RETURN','B or Minus to return to HBLauncher',26)]:
  face=ImageFont.truetype(font,size);box=draw.textbbox((0,0),label,font=face);w,h=box[2]-box[0],box[3]-box[1]
